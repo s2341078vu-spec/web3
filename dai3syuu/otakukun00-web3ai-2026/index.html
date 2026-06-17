@@ -3,12 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YutoriJournal — 人間であることの記録</title>
-    <meta name="description" content="効率化社会へのアンチテーゼ。感情を持つ人間であることを、静かに記録するプライベートジャーナル。">
+    <title>YutoriJournal v2 — 効率化社会をハックする余白のデータベース</title>
+    <meta name="description" content="効率化社会によって失われる「人生の余白」を取り戻すためのプライベートジャーナル。無駄や失敗をリフレーミングし、人間味を蓄積します。">
+    <!-- CSSの読み込み -->
     <link rel="stylesheet" href="style.css">
+    <!-- Lucide Icons CDN -->
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
+    <!-- 背景のアンビエントな波紋（画面全体に広げる） -->
     <div class="ambient-background">
         <div class="ripple-container" id="ripple-container">
             <div class="ripple-wave wave-1"></div>
@@ -18,6 +21,7 @@
     </div>
 
     <div class="app-container">
+        <!-- ミニマルなヘッダー -->
         <header class="zen-header">
             <div class="header-top">
                 <div class="logo-section">
@@ -32,9 +36,9 @@
             <p id="cat-speech">「忙しすぎるニャ。少し休むニャ…」</p>
         </header>
 
+        <!-- メインコンテンツ (縦スクロールのシングルカラム) -->
         <main class="zen-main">
-
-            <!-- 1. 思索の窓 -->
+            <!-- 1. 思索の窓 (Reflect) -->
             <section class="zen-section" id="section-reflect">
                 <div class="section-header">
                     <h2>思索の窓</h2>
@@ -42,16 +46,9 @@
                 </div>
                 <div class="zen-card">
                     <div class="zen-question-box">
-                        <div class="zen-title" id="zen-title">Zen Question</div>
+                        <div class="zen-title">Zen Question</div>
                         <div class="zen-question" id="zen-question">ロード中...</div>
                     </div>
-
-                    <!-- 過去の答えパネル（再思索モード時のみ表示） -->
-                    <div class="past-answer-panel" id="past-answer-panel" style="display:none;">
-                        <div class="past-answer-label">過去の自分の答え <span id="past-answer-date"></span></div>
-                        <div class="past-answer-text" id="past-answer-text"></div>
-                    </div>
-
                     <div class="form-group">
                         <textarea id="journal-answer" placeholder="答えは一つではありません。今のあなたの考えを自由に綴ってください..."></textarea>
                     </div>
@@ -68,23 +65,34 @@
                 </div>
             </section>
 
-            <!-- 2. 心が動いた瞬間 -->
+            <!-- 2. 余白の記録 (Write) -->
             <section class="zen-section" id="section-write">
                 <div class="section-header">
-                    <h2>心が動いた瞬間</h2>
-                    <p class="section-desc">理由はいらない。ただ、何かを感じたこと。それだけを置きます</p>
+                    <h2>余白の記録</h2>
+                    <p class="section-desc">効率や生産性から外れた「無駄」や「バグ」をここにそっと置きます</p>
                 </div>
                 <div class="form-card">
                     <form id="log-form">
                         <div class="form-group">
-                            <textarea id="log-content" placeholder="今日、心が動いた瞬間はありましたか？" required></textarea>
+                            <label for="log-type">ログの性質</label>
+                            <select id="log-type">
+                                <option value="margin">余白（寄り道、ぼーっとしたこと、無駄の発見）</option>
+                                <option value="bug">効率バグ（タスクの詰め込み、即レスの焦り、失敗）</option>
+                            </select>
                         </div>
+                        
+                        <div class="form-group">
+                            <label for="log-content">出来事</label>
+                            <textarea id="log-content" placeholder="何が起きましたか？あなたの言葉で素直に書いてみましょう..." required></textarea>
+                        </div>
+
                         <button type="submit" class="btn-minimal btn-primary">
                             <i data-lucide="check"></i>
-                            <span>そっと置く</span>
+                            <span>記録をそっと置く</span>
                         </button>
                     </form>
 
+                    <!-- 余白の呼吸セッションボタン -->
                     <div class="breathe-section-trigger">
                         <p>頭がいっぱいなときは、1分間呼吸を整えましょう</p>
                         <button type="button" class="btn-minimal btn-success" id="breathe-trigger-btn">
@@ -95,74 +103,43 @@
                 </div>
             </section>
 
-            <!-- 3. 封じる -->
-            <section class="zen-section" id="section-seal">
-                <div class="section-header">
-                    <h2>封じる</h2>
-                    <p class="section-desc">届けないために書く。受け取られることを前提にしない言葉</p>
-                </div>
-                <div class="form-card">
-                    <div class="recipient-selector">
-                        <button type="button" class="recipient-btn active" id="btn-future">未来の自分へ</button>
-                        <button type="button" class="recipient-btn" id="btn-someone">誰か（送らない）</button>
-                    </div>
-
-                    <div class="form-group" id="open-date-group">
-                        <label for="seal-open-date">開封日</label>
-                        <input type="date" id="seal-open-date">
-                    </div>
-
-                    <div class="form-group">
-                        <textarea id="seal-content" placeholder="今のあなたの気持ちや想いを。未来の自分へ…"></textarea>
-                    </div>
-
-                    <button type="button" class="btn-minimal btn-primary" id="seal-btn">
-                        <i data-lucide="lock"></i>
-                        <span>封じる</span>
-                    </button>
-                </div>
-            </section>
-
-            <!-- 4. ゆとりの庭 -->
+            <!-- 3. ゆとりの庭 (Garden) -->
             <section class="zen-section" id="section-garden">
                 <div class="section-header">
                     <h2>ゆとりの庭</h2>
-                    <p class="section-desc">積み上がった言葉と、変化してきた自分が集まる場所</p>
+                    <p class="section-desc">耕された思索の余韻と、人間味の断片が集まる場所</p>
                 </div>
-
-                <!-- 封じたもの -->
-                <div class="logs-card" id="sealed-card" style="display:none;">
-                    <div class="card-title-zen">
-                        <i data-lucide="lock"></i>
-                        <span>封じたもの</span>
-                    </div>
-                    <div class="sealed-list" id="sealed-list"></div>
-                </div>
-
-                <!-- 心が動いた瞬間の記録 -->
+                
+                <!-- 過去の余白の断片 -->
                 <div class="logs-card">
                     <div class="card-title-zen">
-                        <i data-lucide="heart"></i>
-                        <span>心が動いた瞬間</span>
+                        <i data-lucide="scroll"></i>
+                        <span>余白の断片（履歴）</span>
                     </div>
-                    <div class="timeline-list" id="timeline-list"></div>
+                    <div class="timeline-list" id="timeline-list">
+                        <!-- JavaScriptで動的生成 -->
+                    </div>
                 </div>
 
-                <!-- 放念した思索 -->
+                <!-- 放念した思索の余韻 -->
                 <div class="history-card">
                     <div class="card-title-zen">
                         <i data-lucide="history"></i>
                         <span>放念した思索の余韻</span>
                     </div>
-                    <div class="history-list" id="history-list"></div>
+                    <div class="history-list" id="history-list">
+                        <!-- JavaScriptで動的生成 -->
+                    </div>
                 </div>
             </section>
-
         </main>
 
+        <!-- フッター -->
         <footer>
-            <p>&copy; 2026 YutoriJournal.</p>
-            <p class="about-app">データはこの端末のみに保存されます。シェアも比較も、ありません。</p>
+            <p>&copy; 2026 YutoriJournal. All rights reserved.</p>
+            <p class="about-app">
+                ※ このアプリはローカル環境（LocalStorage）のみでデータを保存します。あえて「シェア」や「他者との比較」機能はありません。あなたの余白はあなただけのものです。
+            </p>
         </footer>
     </div>
 
@@ -185,9 +162,14 @@
         </div>
     </div>
 
+    <!-- JSの読み込み & Lucide初期化 -->
     <script src="main.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", () => { lucide.createIcons(); });
+        // Lucideアイコンを初期化
+        document.addEventListener("DOMContentLoaded", () => {
+            lucide.createIcons();
+        });
     </script>
 </body>
 </html>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
